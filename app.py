@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-"""
-Comercial NovaTech S.A.C. - PoC E-commerce Robustecido
-Aplicación web en Python puro con servidor HTTP nativo, APIs RESTful
-y Dashboard interactivo con gráficos.
-"""
 
 from http.server import BaseHTTPRequestHandler, HTTPServer
 import json
