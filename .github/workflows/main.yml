@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.14'
-          cache: 'pip'
 
       # =============================================================
       # ETAPA 3: Instalar dependencias
