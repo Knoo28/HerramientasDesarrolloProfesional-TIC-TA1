@@ -1,0 +1,74 @@
+name: CI/CD Pipeline - NovaTech (DevOps)
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  pipeline-integracion-despliegue:
+    runs-on: ubuntu-latest
+
+    steps:
+      # =============================================================
+      # ETAPA 1: Obtener el código del repositorio
+      # =============================================================
+      - name: 1. Obtener codigo del repositorio
+        uses: actions/checkout@v4
+
+      # =============================================================
+      # ETAPA 2: Configurar entorno Python 3.14
+      # =============================================================
+      - name: 2. Configurar entorno Python 3.14
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+
+      # =============================================================
+      # ETAPA 3: Instalar dependencias
+      # =============================================================
+      - name: 3. Instalar dependencias
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      # =============================================================
+      # ETAPA 4: Validar sintaxis con Flake8 (Linting)
+      # =============================================================
+      - name: 4. Validacion tecnica (Linting con flake8)
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      # =============================================================
+      # ETAPA 5: Ejecutar pruebas automatizadas (test.py)
+      # =============================================================
+      - name: 5. Ejecutar pruebas automatizadas
+        run: |
+          python -m unittest test.py
+
+      # =============================================================
+      # ETAPA 6: Publicar artefacto del código fuente
+      # =============================================================
+      - name: 6. Publicar artefacto del build
+        uses: actions/upload-artifact@v4
+        with:
+          name: codigo-fuente-artefacto
+          path: .
+
+      # =============================================================
+      # ETAPA 7: Autenticar e impulsar la imagen a Docker Hub
+      # =============================================================
+      - name: Autenticar en Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: 7. Construir e impulsar imagen a Docker Hub
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/novatech-app:latest
