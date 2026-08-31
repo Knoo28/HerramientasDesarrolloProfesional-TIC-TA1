@@ -402,7 +402,7 @@ class NovaTechRequestHandler(BaseHTTPRequestHandler):
         print("[NovaTech] %s - %s" % (self.address_string(), format % args))
 
 
-def run(server_class=HTTPServer, handler_class=NovaTechRequestHandler, port=8080):
+def run(server_class=HTTPServer, handler_class=NovaTechRequestHandler, port=4200):
     server_address = ("0.0.0.0", port)
     httpd = server_class(server_address, handler_class)
     print(f"[NovaTech] Servidor ejecutándose en http://localhost:{port} (versión {VERSION})")
