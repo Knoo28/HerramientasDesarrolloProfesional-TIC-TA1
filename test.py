@@ -91,6 +91,11 @@ class TestRegresionTiposStrInt(unittest.TestCase):
         self.assertIsInstance(pedido_actualizado["cantidad"], int)
         self.assertEqual(pedido_actualizado["cantidad"], 5)
 
+    def test_9_actualizar_estado_pedido(self):
+            """Test 9: Permite actualizar el estado del pedido a 'Entregado' o 'Cancel ado' vía API/PUT."""
+            pedido_actualizado = actualizar_pedido(pedido_id=1, estado="Entregado")
+            self.assertIsNotNone(pedido_actualizado)
+            self.assertEqual(pedido_actualizado["estado"], "Entregado")
 
 if __name__ == "__main__":
     unittest.main()
