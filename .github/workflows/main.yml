@@ -73,10 +73,11 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/novatech-app:latest
 
-       # =============================================================
+     # =============================================================
       # ETAPA 8: Desplegar en EC2
       # =============================================================
       - name: 8. Desplegar aplicación en EC2
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.EC2_HOST }}
