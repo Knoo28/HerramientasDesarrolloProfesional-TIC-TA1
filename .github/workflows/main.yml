@@ -46,7 +46,7 @@ jobs:
       # =============================================================
       - name: 5. Ejecutar pruebas automatizadas
         run: |
-          python -m unittest test.py
+          python -m unittest -v test.py
 
       # =============================================================
       # ETAPA 6: Publicar artefacto del código fuente
