@@ -168,7 +168,7 @@ def construir_html():
 <body>
     <div class="container">
         <div class="header">
-            <h1>Comercial NovaTech S.A.C. - Operations & Analytics</h1>
+            <h1>Comercial NovaTech S.A.C. - Operations & Analytics </h1>
             <span>Versión: <strong>{VERSION}</strong></span>
         </div>
 
