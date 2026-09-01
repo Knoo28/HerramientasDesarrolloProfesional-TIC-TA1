@@ -174,7 +174,7 @@ def construir_html():
 
         <div class="grid">
             <div class="card">
-                <h3>Ventas por Producto (S/)</h3>
+                <h3>Ventas por Producto (S/) </h3>
                 <canvas id="ventasChart" height="120"></canvas>
             </div>
 
