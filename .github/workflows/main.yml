@@ -58,11 +58,8 @@ jobs:
           path: .
 
       # =============================================================
-      # ETAPA 7: Configurar e iniciar sesión en Docker Hub
+      # ETAPA 7: Autenticar e impulsar la imagen a Docker Hub
       # =============================================================
-      - name: Configurar Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
       - name: Autenticar en Docker Hub
         uses: docker/login-action@v3
         with:
@@ -75,3 +72,35 @@ jobs:
           context: .
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/novatech-app:latest
+
+     # =============================================================
+      # ETAPA 8: Desplegar en EC2
+      # =============================================================
+      - name: 8. Desplegar aplicación en EC2
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_PRIVATE_KEY }}
+          script: |
+            echo "Conectando a EC2..."
+
+            echo "Descargando nueva imagen..."
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/novatech-app:latest
+
+            echo "Deteniendo contenedor anterior..."
+            docker stop novatech-app || true
+
+            echo "Eliminando contenedor anterior..."
+            docker rm novatech-app || true
+
+            echo "Creando nuevo contenedor..."
+            docker run -d \
+              --name novatech-app \
+              -p 80:4200 \
+              ${{ secrets.DOCKERHUB_USERNAME }}/novatech-app:latest
+
+            echo "Despliegue completado."
+
+            docker ps
