@@ -97,5 +97,10 @@ class TestRegresionTiposStrInt(unittest.TestCase):
             self.assertIsNotNone(pedido_actualizado)
             self.assertEqual(pedido_actualizado["estado"], "Entregado")
 
+    def test_10_codigo_pedido(self):
+            """Test 10: Prueba deliberadamente fallida con un código de pedido inválido."""
+            codigo = "XYZ-2026-9999"
+            self.assertTrue(validar_codigo_pedido(codigo))
+
 if __name__ == "__main__":
     unittest.main()
