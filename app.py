@@ -144,7 +144,7 @@ def construir_html():
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>NovaTech S.A.C. - Dashboard Interactivo</title>
+    <title>NovaTech S.A.C. - Dashboard Interactivo -</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {{ font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f1f5f9; margin: 0; padding: 25px; color: #334155; }}
